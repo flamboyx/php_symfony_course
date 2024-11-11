@@ -36,6 +36,8 @@
       <excludeFolder url="file://$MODULE_DIR$/php_lesson_2/vendor/symfony/var-dumper" />
       <excludeFolder url="file://$MODULE_DIR$/php_lesson_2/vendor/symfony/var-exporter" />
       <excludeFolder url="file://$MODULE_DIR$/php_lesson_2/vendor/symfony/yaml" />
+      <excludeFolder url="file://$MODULE_DIR$/php_lesson_2/vendor/symfony/polyfill-uuid" />
+      <excludeFolder url="file://$MODULE_DIR$/php_lesson_2/vendor/symfony/uid" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

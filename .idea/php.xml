@@ -44,6 +44,8 @@
       <path value="$PROJECT_DIR$/php_lesson_2/vendor/symfony/var-dumper" />
       <path value="$PROJECT_DIR$/php_lesson_2/vendor/symfony/var-exporter" />
       <path value="$PROJECT_DIR$/php_lesson_2/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/php_lesson_2/vendor/symfony/uid" />
+      <path value="$PROJECT_DIR$/php_lesson_2/vendor/symfony/polyfill-uuid" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
