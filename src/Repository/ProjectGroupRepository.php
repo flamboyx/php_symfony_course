@@ -20,32 +20,5 @@ class ProjectGroupRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ProjectGroup::class);
     }
-
-    // /**
-    //  * @return ProjectGroup[] Returns an array of ProjectGroup objects
-    //  */
-    // public function findByExampleField($value): array
-    // {
-    //     return $this->createQueryBuilder('p')
-    //         ->andWhere('p.exampleField = :val')
-    //         ->setParameter('val', $value)
-    //         ->orderBy('p.id', 'ASC')
-    //         ->getQuery()
-    //         ->getResult()
-    //     ;
-    // }
-
-    // /**
-    //  * @return ProjectGroup|null Returns a single ProjectGroup object
-    //  */
-    // public function findOneBySomeField($value): ?ProjectGroup
-    // {
-    //     return $this->createQueryBuilder('p')
-    //         ->andWhere('p.exampleField = :val')
-    //         ->setParameter('val', $value)
-    //         ->getQuery()
-    //         ->getOneOrNullResult()
-    //     ;
-    // }
 }
 
