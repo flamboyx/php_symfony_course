@@ -10,9 +10,9 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_DB: symfony_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${DATABASE_DB}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
