@@ -40,6 +40,7 @@ class ProjectGroupType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ProjectGroup::class,
+            'csrf_protection' => false,
         ]);
     }
 }

@@ -40,6 +40,7 @@ class TaskType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Task::class,
+            'csrf_protection' => false,
         ]);
     }
 }

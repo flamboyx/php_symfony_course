@@ -38,6 +38,7 @@ class ProjectType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Project::class,
+            'csrf_protection' => false,
         ]);
     }
 }
