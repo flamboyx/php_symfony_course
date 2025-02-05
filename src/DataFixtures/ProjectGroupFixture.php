@@ -12,7 +12,7 @@ class ProjectGroupFixture extends Fixture
     {
         for ($i = 0; $i < 10; $i++) {
             $project = new ProjectGroup();
-            $project->setName('Project Group' . $i);
+            $project->setName('Project Group ' . $i);
 
             $manager->persist($project);
         }
