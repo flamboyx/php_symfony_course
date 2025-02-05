@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/data/project-groups')]
@@ -24,7 +25,7 @@ final class ProjectGroupController extends AbstractController
     #[Route('/{id}', name: 'project_group_read', methods: ['GET'])]
     public function read(ProjectGroup $projectGroup): JsonResponse
     {
-        return $this->json(['data' => $projectGroup]);
+        return $this->json($projectGroup, 200, [], ['groups' => ['project_group_read']]);
     }
 
     #[Route('/', name: 'project_group_create', methods: ['POST'])]

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
 #[ORM\Entity(repositoryClass: ProjectGroupRepository::class)]
@@ -17,15 +18,19 @@ class ProjectGroup
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['project_group_read'])]
     private ?Uuid $id;
 
     #[ORM\Column(type: 'string')]
+    #[Groups(['project_group_read'])]
     private ?string $name;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['project_group_read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['project_group_read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**
