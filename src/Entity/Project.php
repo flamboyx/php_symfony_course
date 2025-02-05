@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+#[Groups(['project_read'])]
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 class Project
@@ -15,22 +19,39 @@ class Project
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['project_read', 'task_read'])]
     private ?Uuid $id;
 
     #[ORM\Column(type: 'string')]
+    #[Groups(['project_read', 'task_read'])]
     private ?string $name;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['project_read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['project_read'])]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'projects')]
+    #[Groups(['project_read'])]
+    private ?ProjectGroup $projectGroup = null;
+
+    /**
+     * @var Collection<int, Task>
+     */
+
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'project', cascade: ['remove'])]
+    #[ORM\JoinColumn(name: 'project_group_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    private Collection $tasks;
 
     public function __construct()
     {
         $this->id = Uuid::v4();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->tasks = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -83,6 +104,47 @@ class Project
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getProjectGroup(): ?ProjectGroup
+    {
+        return $this->projectGroup;
+    }
+
+    public function setProjectGroup(?ProjectGroup $projectGroup): static
+    {
+        $this->projectGroup = $projectGroup;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): static
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+            $task->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): static
+    {
+        if ($this->tasks->removeElement($task)) {
+            if ($task->getProject() === $this) {
+                $task->setProject(null);
+            }
+        }
 
         return $this;
     }

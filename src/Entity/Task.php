@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
@@ -15,19 +16,29 @@ class Task
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['task_read'])]
     private ?Uuid $id;
 
     #[ORM\Column(type: 'string')]
+    #[Groups(['task_read'])]
     private ?string $name;
 
     #[ORM\Column(type: 'string')]
+    #[Groups(['task_read'])]
     private ?string $description;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['task_read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['task_read'])]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[ORM\JoinColumn(name: 'project_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[Groups(['task_read'])]
+    private ?Project $project = null;
 
     public function __construct()
     {
@@ -98,6 +109,18 @@ class Task
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): static
+    {
+        $this->project = $project;
 
         return $this;
     }

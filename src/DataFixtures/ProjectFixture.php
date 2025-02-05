@@ -3,20 +3,37 @@
 namespace App\DataFixtures;
 
 use App\Entity\Project;
+use App\Entity\ProjectGroup;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class ProjectFixture extends Fixture
+class ProjectFixture extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 10; $i++) {
-            $project = new Project();
-            $project->setName('Project' . $i);
+        $projectGroups = $manager->getRepository(ProjectGroup::class)->findAll();
 
-            $manager->persist($project);
+        if (empty($projectGroups)) {
+            throw new \LogicException('You need to load ProjectGroupFixture first');
+        }
+
+        foreach ($projectGroups as $group) {
+            for ($i = 0; $i < 3; $i++) {
+                $project = new Project();
+                $project->setName('Project-' . $i);
+                $project->setProjectGroup($group);
+                $manager->persist($project);
+            }
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            ProjectGroupFixture::class,
+        ];
     }
 }
