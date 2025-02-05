@@ -14,8 +14,8 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('data/tasks/')]
 final class TaskController extends AbstractController
 {
-    #[Route('/', name: 'task_id', methods: ['GET'])]
-    public function id(TaskRepository $taskRepository): JsonResponse
+    #[Route('/', name: 'task_index', methods: ['GET'])]
+    public function index(TaskRepository $taskRepository): JsonResponse
     {
         $tasks = $taskRepository->findAll();
         return $this->json(['data' => $tasks]);

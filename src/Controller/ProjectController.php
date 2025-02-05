@@ -14,8 +14,8 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/data/projects')]
 final class ProjectController extends AbstractController
 {
-    #[Route('/', name: 'project_id', methods: ['GET'])]
-    public function id(ProjectRepository $projectRepository): JsonResponse
+    #[Route('/', name: 'project_index', methods: ['GET'])]
+    public function index(ProjectRepository $projectRepository): JsonResponse
     {
         $projects = $projectRepository->findAll();
         return $this->json(['data' => $projects]);
